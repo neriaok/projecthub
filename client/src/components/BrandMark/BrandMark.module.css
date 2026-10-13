@@ -1,0 +1,66 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark {
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 10px rgba(31, 99, 184, 0.35));
+}
+
+.medium .mark {
+  width: 34px;
+  height: 34px;
+}
+
+.large .mark {
+  width: 48px;
+  height: 48px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.name {
+  font-family: var(--ph-font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.medium .name {
+  font-size: 19px;
+}
+
+.large .name {
+  font-size: 28px;
+}
+
+.light .name {
+  color: #fff;
+}
+
+.dark .name {
+  color: var(--ph-navy-700);
+}
+
+.nameAccent {
+  color: var(--ph-accent);
+}
+
+.tagline {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+}
+
+.light .tagline {
+  color: #fff;
+}
+
+.dark .tagline {
+  color: var(--ph-navy-700);
+}

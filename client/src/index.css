@@ -1,3 +1,15 @@
+:root {
+  --ph-navy-900: #08142a;
+  --ph-navy-800: #0b1b33;
+  --ph-navy-700: #122e54;
+  --ph-steel: #3879ad;
+  --ph-accent: #ff9f2e;
+  --ph-accent-soft: #fff2e0;
+  --ph-surface: #f3f6fb;
+  --ph-card-shadow: 0 1px 2px rgba(15, 39, 71, 0.06), 0 8px 24px rgba(15, 39, 71, 0.06);
+  --ph-font-display: 'Montserrat', 'Assistant', sans-serif;
+}
+
 *,
 *::before,
 *::after {
@@ -7,10 +19,17 @@
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
 body {
-  font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Assistant', 'Segoe UI', system-ui, sans-serif;
+  background: var(--ph-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root > .fui-FluentProvider {
+  min-height: 100vh;
+  background: transparent;
 }

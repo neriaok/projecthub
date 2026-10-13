@@ -1,0 +1,42 @@
+.pattern {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pattern line {
+  stroke: currentColor;
+  stroke-width: 1;
+}
+
+.pattern circle {
+  fill: currentColor;
+  fill-opacity: 0.75;
+}
+
+.pattern .pulse {
+  fill: var(--ph-accent);
+  fill-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 3.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(2.2);
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pattern .pulse {
+    animation: none;
+  }
+}
