@@ -25,7 +25,8 @@ import BrandMark from '../../components/BrandMark';
 import NetworkPattern from '../../components/NetworkPattern';
 import { useLoginMutation } from '../../features/auth/authApi';
 import type { LoginBody } from '../../features/auth/authApi';
-import { useAppSelector } from '../../hooks/useAppDispatch';
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch';
+import { baseApi } from '../../store/baseApi';
 import { getApiErrorMessage } from '../../utils/apiError';
 import config from '../../config';
 import styles from './LoginPage.module.css';
@@ -43,6 +44,7 @@ const HIGHLIGHTS = [
 const LoginPage: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.auth.token);
   const [login, { isLoading, error }] = useLoginMutation();
   const [email, setEmail] = useState('');
@@ -53,6 +55,8 @@ const LoginPage: FC = () => {
   if (token) return <Navigate to={redirectTo} replace />;
 
   const signIn = async (credentials: LoginBody) => {
+    // Start every session with an empty cache, so no data from a previous user is shown.
+    dispatch(baseApi.util.resetApiState());
     try {
       await login(credentials).unwrap();
       navigate(redirectTo, { replace: true });

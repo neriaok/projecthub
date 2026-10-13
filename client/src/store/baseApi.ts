@@ -20,9 +20,10 @@ const rawBaseQuery = fetchBaseQuery({
 const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
   const result = await rawBaseQuery(args, api, extraOptions);
 
+  // Only sign out here. Resetting the API state from inside a running query leaves
+  // RTK Query inconsistent, so the cache is cleared when the next session starts instead.
   if (result.error?.status === 401 && api.endpoint !== 'login') {
     api.dispatch(loggedOut());
-    api.dispatch(baseApi.util.resetApiState());
   }
   if (result.error) return { error: result.error };
 
