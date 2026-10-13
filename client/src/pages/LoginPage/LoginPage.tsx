@@ -2,20 +2,27 @@ import { useState } from 'react';
 import type { FC, FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import {
+  Avatar,
   Body1,
   Button,
   Caption1,
-  Card,
-  Divider,
   Field,
   Input,
   MessageBar,
   MessageBarBody,
   Spinner,
   Text,
-  Title2,
 } from '@fluentui/react-components';
-import { Grid24Filled, LockClosed20Regular, Mail20Regular } from '@fluentui/react-icons';
+import {
+  ArrowLeft20Regular,
+  CheckmarkCircle20Filled,
+  DataTrending20Filled,
+  LockClosed20Regular,
+  Mail20Regular,
+  PeopleTeam20Filled,
+} from '@fluentui/react-icons';
+import BrandMark from '../../components/BrandMark';
+import NetworkPattern from '../../components/NetworkPattern';
 import { useLoginMutation } from '../../features/auth/authApi';
 import type { LoginBody } from '../../features/auth/authApi';
 import { useAppSelector } from '../../hooks/useAppDispatch';
@@ -26,6 +33,12 @@ import styles from './LoginPage.module.css';
 interface LocationState {
   from?: string;
 }
+
+const HIGHLIGHTS = [
+  { icon: PeopleTeam20Filled, text: 'כל בקשה מנותבת אוטומטית למנהל הישיר לאישור' },
+  { icon: CheckmarkCircle20Filled, text: 'החלטות, הערות ושינויי סטטוס במקום אחד' },
+  { icon: DataTrending20Filled, text: 'תמונת מצב ל-PMO: תקציבים, סטטוסים ופרויקטים באיחור' },
+];
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
@@ -62,76 +75,108 @@ const LoginPage: FC = () => {
 
   return (
     <div className={styles.page}>
-      <Card className={styles.card}>
-        <div className={styles.brand}>
-          <span className={styles.logo}>
-            <Grid24Filled />
-          </span>
-          <Title2 as="h1">ProjectHub</Title2>
-          <Body1 className={styles.tagline}>הגשה, אישור ומעקב אחר בקשות פרויקט</Body1>
+      <section className={styles.showcase} aria-hidden="true">
+        <NetworkPattern className={styles.pattern} seed={3} nodes={70} width={900} height={900} linkDistance={140} />
+        <div className={styles.glow} />
+        <div className={styles.showcaseContent}>
+          <BrandMark size="large" tone="light" />
+          <h2 className={styles.headline}>
+            מהרעיון ועד הביצוע,
+            <br />
+            <span className={styles.headlineAccent}>כל בקשת פרויקט במסלול אחד.</span>
+          </h2>
+          <ul className={styles.highlights}>
+            {HIGHLIGHTS.map(({ icon: Icon, text }) => (
+              <li key={text}>
+                <span className={styles.highlightIcon}>
+                  <Icon />
+                </span>
+                {text}
+              </li>
+            ))}
+          </ul>
         </div>
+      </section>
 
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <Field label="אימייל" required>
-            <Input
-              type="email"
-              autoComplete="username"
-              contentBefore={<Mail20Regular />}
-              value={email}
-              onChange={(_, data) => setEmail(data.value)}
-            />
-          </Field>
-          <Field label="סיסמה" required>
-            <Input
-              type="password"
-              autoComplete="current-password"
-              contentBefore={<LockClosed20Regular />}
-              value={password}
-              onChange={(_, data) => setPassword(data.value)}
-            />
-          </Field>
-
-          {errorMessage && (
-            <MessageBar intent="error">
-              <MessageBarBody>{errorMessage}</MessageBarBody>
-            </MessageBar>
-          )}
-
-          <Button
-            type="submit"
-            appearance="primary"
-            size="large"
-            disabled={isLoading || !email || !password}
-            icon={isLoading ? <Spinner size="tiny" /> : undefined}
-          >
-            כניסה
-          </Button>
-        </form>
-
-        {config.quickLogin.enabled && (
-          <div className={styles.quick}>
-            <Divider>
-              <Caption1>כניסה מהירה</Caption1>
-            </Divider>
-            <div className={styles.quickButtons}>
-              {config.quickLogin.accounts.map((account) => (
-                <Button
-                  key={account.email}
-                  appearance="secondary"
-                  className={styles.quickButton}
-                  disabled={isLoading}
-                  onClick={() => void signIn({ email: account.email, password: config.quickLogin.password })}
-                >
-                  <span className={styles.quickText}>
-                    <Text weight="semibold">{account.name}</Text>
-                    <Caption1 className={styles.quickRole}>{account.roleLabel}</Caption1>
-                  </span>
-                </Button>
-              ))}
-            </div>
+      <section className={styles.formPanel}>
+        <div className={styles.formInner}>
+          <div className={styles.mobileBrand}>
+            <BrandMark tone="dark" />
           </div>
-        )}
-      </Card>
+          <div className={styles.heading}>
+            <h1 className={styles.title}>כניסה לחשבון</h1>
+            <Body1 className={styles.subtitle}>התחברו עם חשבון הארגון כדי להמשיך</Body1>
+          </div>
+
+          <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <Field label="אימייל" required>
+              <Input
+                size="large"
+                type="email"
+                autoComplete="username"
+                placeholder="name@company.co.il"
+                contentBefore={<Mail20Regular />}
+                value={email}
+                onChange={(_, data) => setEmail(data.value)}
+              />
+            </Field>
+            <Field label="סיסמה" required>
+              <Input
+                size="large"
+                type="password"
+                autoComplete="current-password"
+                contentBefore={<LockClosed20Regular />}
+                value={password}
+                onChange={(_, data) => setPassword(data.value)}
+              />
+            </Field>
+
+            {errorMessage && (
+              <MessageBar intent="error">
+                <MessageBarBody>{errorMessage}</MessageBarBody>
+              </MessageBar>
+            )}
+
+            <Button
+              type="submit"
+              appearance="primary"
+              size="large"
+              className={styles.submit}
+              disabled={isLoading || !email || !password}
+              icon={isLoading ? <Spinner size="tiny" appearance="inverted" /> : <ArrowLeft20Regular />}
+              iconPosition="after"
+            >
+              כניסה
+            </Button>
+          </form>
+
+          {config.quickLogin.enabled && (
+            <div className={styles.quick}>
+              <div className={styles.quickDivider}>
+                <Caption1>כניסה מהירה</Caption1>
+              </div>
+              <div className={styles.quickList}>
+                {config.quickLogin.accounts.map((account) => (
+                  <button
+                    key={account.email}
+                    type="button"
+                    className={styles.quickItem}
+                    disabled={isLoading}
+                    onClick={() => void signIn({ email: account.email, password: config.quickLogin.password })}
+                  >
+                    <Avatar name={account.name} color="colorful" size={36} />
+                    <span className={styles.quickText}>
+                      <Text weight="semibold">{account.name}</Text>
+                      <Caption1 className={styles.quickRole}>{account.roleLabel}</Caption1>
+                    </span>
+                    <ArrowLeft20Regular className={styles.quickArrow} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
