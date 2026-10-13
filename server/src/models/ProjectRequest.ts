@@ -44,7 +44,9 @@ const projectRequestSchema = new Schema<IProjectRequest>(
   },
   {
     timestamps: true,
+    id: false,
     toJSON: {
+      virtuals: true,
       transform: (_doc, ret: Record<string, unknown>) => {
         delete ret.__v;
         return ret;
@@ -52,6 +54,21 @@ const projectRequestSchema = new Schema<IProjectRequest>(
     },
   },
 );
+
+// Person fields stay flat ids; these virtuals expand them on demand.
+projectRequestSchema.virtual('requester', {
+  ref: 'User',
+  localField: 'requesterId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+projectRequestSchema.virtual('approver', {
+  ref: 'User',
+  localField: 'approverId',
+  foreignField: '_id',
+  justOne: true,
+});
 
 projectRequestSchema.pre('validate', function () {
   if (this.startDate && this.endDate && this.endDate <= this.startDate) {
