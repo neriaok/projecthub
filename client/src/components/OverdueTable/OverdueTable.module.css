@@ -1,0 +1,57 @@
+.wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 720px;
+}
+
+.table .colTitle {
+  width: 32%;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.title {
+  font-weight: 700;
+  color: var(--ph-navy-700);
+  text-decoration: none;
+}
+
+.title:hover,
+.row:hover .title {
+  color: var(--colorBrandForeground1);
+  text-decoration: underline;
+}
+
+.number {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.overdue {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--ph-accent-soft);
+  color: #b25b00;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 4px;
+  color: var(--colorNeutralForeground3);
+}
+
+.emptyIcon {
+  color: #13804b;
+}

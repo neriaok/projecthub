@@ -1,0 +1,69 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--colorNeutralForeground2);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 3px;
+}
+
+.chart {
+  width: 100%;
+}
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  padding: 12px 14px;
+  border: 1px solid rgba(18, 46, 84, 0.1);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(15, 39, 71, 0.16);
+  font-family: 'Assistant', sans-serif;
+  font-size: 13px;
+  color: var(--colorNeutralForeground2);
+}
+
+.tooltipTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ph-navy-700);
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltipRow strong {
+  margin-inline-start: auto;
+  color: var(--colorNeutralForeground1);
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipMeta {
+  padding-top: 4px;
+  border-top: 1px solid var(--colorNeutralStroke2);
+  color: var(--colorNeutralForeground3);
+}
