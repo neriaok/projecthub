@@ -2,6 +2,7 @@ import type { FluentIcon } from '@fluentui/react-icons';
 import {
   AddCircle20Regular,
   ClipboardTaskListLtr20Regular,
+  DataPie20Regular,
   DocumentBulletList20Regular,
   TaskListSquareLtr20Regular,
 } from '@fluentui/react-icons';
@@ -24,5 +25,8 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
     { to: '/requests', label: 'הבקשות שלי', icon: DocumentBulletList20Regular, end: true },
     { to: '/requests/new', label: 'בקשה חדשה', icon: AddCircle20Regular },
   ],
-  pmo: [{ to: '/requests', label: 'כל הבקשות', icon: ClipboardTaskListLtr20Regular, end: true }],
+  pmo: [
+    { to: '/dashboard', label: 'דשבורד', icon: DataPie20Regular },
+    { to: '/requests', label: 'כל הבקשות', icon: ClipboardTaskListLtr20Regular, end: true },
+  ],
 };

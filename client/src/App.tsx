@@ -6,11 +6,13 @@ import LoginPage from './pages/LoginPage';
 import RequestsPage from './pages/RequestsPage';
 import NewRequestPage from './pages/NewRequestPage';
 import RequestDetailsPage from './pages/RequestDetailsPage';
+import DashboardPage from './pages/DashboardPage';
 import { useAppSelector } from './hooks/useAppDispatch';
 
 const HomeRedirect: FC = () => {
   const role = useAppSelector((state) => state.auth.user?.role);
-  return <Navigate to={role === 'manager' ? '/approvals' : '/requests'} replace />;
+  const home = role === 'pmo' ? '/dashboard' : role === 'manager' ? '/approvals' : '/requests';
+  return <Navigate to={home} replace />;
 };
 
 const RequestsHome: FC = () => {
@@ -27,6 +29,9 @@ const App: FC = () => (
       <Route path="/requests/:id" element={<RequestDetailsPage />} />
       <Route element={<RequireRole roles={['employee', 'manager']} />}>
         <Route path="/requests/new" element={<NewRequestPage />} />
+      </Route>
+      <Route element={<RequireRole roles={['pmo']} />}>
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Route>
       <Route element={<RequireRole roles={['manager']} />}>
         <Route path="/approvals" element={<RequestsPage view="approvals" />} />
