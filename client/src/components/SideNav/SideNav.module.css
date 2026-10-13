@@ -1,8 +1,17 @@
 .nav {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 16px 8px;
+  gap: 4px;
+  padding: 20px 14px;
+}
+
+.section {
+  padding: 0 10px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .link {
@@ -10,56 +19,79 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--borderRadiusMedium);
-  color: var(--colorNeutralForeground2);
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.74);
   text-decoration: none;
-  font-size: var(--fontSizeBase300);
+  font-size: 15px;
+  font-weight: 600;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .link:hover {
-  background: var(--colorSubtleBackgroundHover);
-  color: var(--colorNeutralForeground1);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
 }
 
-.active {
-  background: var(--colorSubtleBackgroundSelected);
-  color: var(--colorNeutralForeground1);
-  font-weight: var(--fontWeightSemibold);
+.link:focus-visible {
+  outline: 2px solid var(--ph-accent);
+  outline-offset: 2px;
 }
 
-.active::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  border-radius: 2px;
-  background: var(--colorBrandBackground);
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background 0.15s ease;
 }
 
 .icon {
-  font-size: 20px;
-  flex-shrink: 0;
+  font-size: 18px;
 }
 
-.active .icon {
-  color: var(--colorBrandForeground1);
+.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-@media (max-width: 640px) {
+.active .iconWrap {
+  background: linear-gradient(135deg, #2f7de1, #1a56a0);
+  box-shadow: 0 6px 16px rgba(47, 125, 225, 0.45);
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -14px;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+  background: var(--ph-accent);
+}
+
+@media (max-width: 900px) {
   .nav {
     flex-direction: row;
     overflow-x: auto;
-    padding: 8px;
+    padding: 0 12px 12px;
+  }
+
+  .section {
+    display: none;
   }
 
   .link {
     white-space: nowrap;
   }
 
-  .active::before {
+  .active::after {
     display: none;
   }
 }

@@ -10,6 +10,7 @@ interface SideNavProps {
 
 const SideNav: FC<SideNavProps> = ({ role }) => (
   <nav className={styles.nav} aria-label="ניווט ראשי">
+    <span className={styles.section}>תפריט</span>
     {NAV_ITEMS[role].map(({ to, label, icon: Icon, end }) => (
       <NavLink
         key={to}
@@ -17,7 +18,9 @@ const SideNav: FC<SideNavProps> = ({ role }) => (
         end={end}
         className={({ isActive }) => (isActive ? `${styles.link} ${styles.active}` : styles.link)}
       >
-        <Icon className={styles.icon} />
+        <span className={styles.iconWrap}>
+          <Icon className={styles.icon} />
+        </span>
         <span>{label}</span>
       </NavLink>
     ))}

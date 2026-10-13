@@ -13,6 +13,33 @@
   gap: 4px;
 }
 
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--colorBrandForeground1);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 18px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--ph-accent);
+}
+
+.title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ph-navy-700);
+}
+
 .subtitle {
   color: var(--colorNeutralForeground3);
 }
