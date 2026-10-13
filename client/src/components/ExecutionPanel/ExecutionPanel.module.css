@@ -1,0 +1,45 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, var(--ph-navy-700), var(--ph-navy-900));
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(8, 20, 42, 0.22);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffc46b;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.text {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.button:not(:disabled) {
+  background: var(--ph-accent);
+  color: var(--ph-navy-900);
+  box-shadow: 0 8px 20px rgba(255, 159, 46, 0.35);
+}
+
+.button:not(:disabled):hover {
+  background: #ffb04f;
+  color: var(--ph-navy-900);
+}
+
+.flipIcon {
+  transform: scaleX(-1);
+}

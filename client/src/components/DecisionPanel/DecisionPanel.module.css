@@ -1,0 +1,90 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid rgba(255, 159, 46, 0.45);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffaf2 0%, #fff 60%);
+  box-shadow: 0 10px 30px rgba(178, 91, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pulse {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ph-accent);
+}
+
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--ph-accent);
+  animation: ring 1.8s ease-out infinite;
+}
+
+@keyframes ring {
+  from {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ph-navy-700);
+}
+
+.text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--colorNeutralForeground2);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.approve:not(:disabled) {
+  background: #13804b;
+  box-shadow: 0 8px 18px rgba(19, 128, 75, 0.28);
+}
+
+.approve:not(:disabled):hover {
+  background: #0f6b3e;
+}
+
+.reject:not(:disabled) {
+  border-color: #e3b3b3;
+  color: #b42318;
+}
+
+.reject:not(:disabled):hover {
+  border-color: #b42318;
+  background: #fff5f5;
+  color: #8f1c13;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse::after {
+    animation: none;
+  }
+}
