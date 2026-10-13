@@ -1,0 +1,55 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--colorBrandBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brandIcon {
+  font-size: 20px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.role {
+  opacity: 0.85;
+}
+
+.logout {
+  color: var(--colorNeutralForegroundOnBrand);
+}
+
+.logout:hover {
+  color: var(--colorNeutralForegroundOnBrand);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.flipIcon {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 640px) {
+  .userText {
+    display: none;
+  }
+}

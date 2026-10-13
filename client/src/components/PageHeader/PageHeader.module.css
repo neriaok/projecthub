@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subtitle {
+  color: var(--colorNeutralForeground3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

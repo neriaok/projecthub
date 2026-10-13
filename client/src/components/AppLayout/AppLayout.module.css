@@ -1,0 +1,41 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--colorNeutralBackground2);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--colorNeutralBackground1);
+  border-inline-end: 1px solid var(--colorNeutralStroke2);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px;
+}
+
+@media (max-width: 640px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+    border-inline-end: none;
+    border-bottom: 1px solid var(--colorNeutralStroke2);
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+}
