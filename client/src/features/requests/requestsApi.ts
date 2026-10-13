@@ -36,13 +36,14 @@ export const requestsApi = baseApi.injectEndpoints({
     }),
     createRequest: builder.mutation<ProjectRequest, CreateRequestBody>({
       query: (body) => ({ url: '/requests', method: 'POST', body }),
-      invalidatesTags: [{ type: 'Request', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Request', id: 'LIST' }, 'Dashboard'],
     }),
     decideRequest: builder.mutation<ProjectRequest, DecideRequestArgs>({
       query: ({ id, ...body }) => ({ url: `/requests/${id}/decision`, method: 'PATCH', body }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'Request', id },
         { type: 'Request', id: 'LIST' },
+        'Dashboard',
       ],
     }),
     updateRequestStatus: builder.mutation<ProjectRequest, UpdateStatusArgs>({
@@ -50,6 +51,7 @@ export const requestsApi = baseApi.injectEndpoints({
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'Request', id },
         { type: 'Request', id: 'LIST' },
+        'Dashboard',
       ],
     }),
   }),
