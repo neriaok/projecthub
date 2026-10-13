@@ -1,0 +1,18 @@
+import dotenv from 'dotenv';
+
+dotenv.config({ quiet: true });
+
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`Missing required environment variable: ${name}`);
+  return value;
+}
+
+export const config = {
+  nodeEnv: process.env.NODE_ENV || 'development',
+  port: Number(process.env.PORT) || 5000,
+  mongoUri: requireEnv('MONGO_URI'),
+  clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+};
+
+export default config;
