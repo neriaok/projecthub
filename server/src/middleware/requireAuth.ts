@@ -1,3 +1,4 @@
+import type {} from '../types/express';
 import { Request } from 'express';
 import asyncHandler from './asyncHandler';
 import ApiError from '../utils/ApiError';

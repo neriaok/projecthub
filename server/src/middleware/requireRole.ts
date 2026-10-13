@@ -1,3 +1,4 @@
+import type {} from '../types/express';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import ApiError from '../utils/ApiError';
 import { UserRole } from '../models/User';
