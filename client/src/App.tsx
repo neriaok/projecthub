@@ -5,6 +5,7 @@ import RequireRole from './components/RequireRole';
 import LoginPage from './pages/LoginPage';
 import RequestsPage from './pages/RequestsPage';
 import NewRequestPage from './pages/NewRequestPage';
+import RequestDetailsPage from './pages/RequestDetailsPage';
 import { useAppSelector } from './hooks/useAppDispatch';
 
 const HomeRedirect: FC = () => {
@@ -23,6 +24,7 @@ const App: FC = () => (
     <Route element={<RequireAuth />}>
       <Route index element={<HomeRedirect />} />
       <Route path="/requests" element={<RequestsHome />} />
+      <Route path="/requests/:id" element={<RequestDetailsPage />} />
       <Route element={<RequireRole roles={['employee', 'manager']} />}>
         <Route path="/requests/new" element={<NewRequestPage />} />
       </Route>

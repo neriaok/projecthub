@@ -91,12 +91,20 @@
 }
 
 .row {
+  cursor: pointer;
   transition: background 0.12s ease;
 }
 
 .title {
   font-weight: 700;
   color: var(--ph-navy-700);
+  text-decoration: none;
+}
+
+.title:hover,
+.row:hover .title {
+  color: var(--colorBrandForeground1);
+  text-decoration: underline;
 }
 
 .budget {

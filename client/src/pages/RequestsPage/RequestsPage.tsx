@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Body1,
@@ -120,7 +120,9 @@ const RequestsPage: FC<RequestsPageProps> = ({ view }) => {
         renderHeaderCell: () => 'שם הפרויקט',
         renderCell: (item) => (
           <TableCellLayout truncate description={`הוגשה ${formatDate(item.createdAt)}`}>
-            <span className={styles.title}>{item.title}</span>
+            <Link to={`/requests/${item._id}`} className={styles.title} onClick={(event) => event.stopPropagation()}>
+              {item.title}
+            </Link>
           </TableCellLayout>
         ),
       }),
@@ -271,7 +273,11 @@ const RequestsPage: FC<RequestsPageProps> = ({ view }) => {
                 </DataGridHeader>
                 <DataGridBody<ProjectRequest>>
                   {({ item, rowId }) => (
-                    <DataGridRow<ProjectRequest> key={rowId} className={styles.row}>
+                    <DataGridRow<ProjectRequest>
+                      key={rowId}
+                      className={styles.row}
+                      onClick={() => navigate(`/requests/${item._id}`)}
+                    >
                       {({ renderCell, columnId }) => (
                         <DataGridCell className={columnClass(columnId)}>{renderCell(item)}</DataGridCell>
                       )}
