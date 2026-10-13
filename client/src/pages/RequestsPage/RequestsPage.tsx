@@ -20,7 +20,7 @@ import {
   TableCellLayout,
   createTableColumn,
 } from '@fluentui/react-components';
-import type { TableColumnDefinition, TableColumnSizingOptions } from '@fluentui/react-components';
+import type { TableColumnDefinition, TableColumnId } from '@fluentui/react-components';
 import { Add20Regular, Clock12Filled, DocumentSearch24Regular } from '@fluentui/react-icons';
 import PageHeader from '../../components/PageHeader';
 import StatusBadge from '../../components/StatusBadge';
@@ -64,15 +64,18 @@ const VIEW_COPY: Record<RequestsView, { eyebrow: string; title: string; subtitle
   },
 };
 
-const COLUMN_SIZING: TableColumnSizingOptions = {
-  title: { idealWidth: 300, minWidth: 220 },
-  requester: { idealWidth: 160, minWidth: 140 },
-  department: { idealWidth: 120, minWidth: 100 },
-  budget: { idealWidth: 110, minWidth: 100 },
-  dates: { idealWidth: 280, minWidth: 270 },
-  priority: { idealWidth: 90, minWidth: 80 },
-  status: { idealWidth: 130, minWidth: 120 },
+/** Proportional column widths, so the grid stays fluid instead of scrolling sideways. */
+const COLUMN_CLASS: Record<string, string> = {
+  title: styles.colTitle,
+  requester: styles.colRequester,
+  department: styles.colDepartment,
+  budget: styles.colBudget,
+  dates: styles.colDates,
+  priority: styles.colPriority,
+  status: styles.colStatus,
 };
+
+const columnClass = (columnId: TableColumnId) => COLUMN_CLASS[String(columnId)];
 
 const compareText = (a: string, b: string) => a.localeCompare(b, 'he');
 
@@ -256,20 +259,22 @@ const RequestsPage: FC<RequestsPageProps> = ({ view }) => {
                 items={requests}
                 columns={columns}
                 sortable
-                resizableColumns
-                columnSizingOptions={COLUMN_SIZING}
                 getRowId={(item: ProjectRequest) => item._id}
                 className={styles.grid}
               >
                 <DataGridHeader className={styles.gridHeader}>
                   <DataGridRow>
-                    {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>}
+                    {({ renderHeaderCell, columnId }) => (
+                      <DataGridHeaderCell className={columnClass(columnId)}>{renderHeaderCell()}</DataGridHeaderCell>
+                    )}
                   </DataGridRow>
                 </DataGridHeader>
                 <DataGridBody<ProjectRequest>>
                   {({ item, rowId }) => (
                     <DataGridRow<ProjectRequest> key={rowId} className={styles.row}>
-                      {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                      {({ renderCell, columnId }) => (
+                        <DataGridCell className={columnClass(columnId)}>{renderCell(item)}</DataGridCell>
+                      )}
                     </DataGridRow>
                   )}
                 </DataGridBody>

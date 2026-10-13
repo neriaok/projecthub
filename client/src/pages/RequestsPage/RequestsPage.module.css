@@ -46,7 +46,38 @@
 }
 
 .grid {
-  min-width: 1040px;
+  min-width: 860px;
+}
+
+.grid .colTitle {
+  flex: 2.4 1 0;
+  min-width: 0;
+}
+
+.grid .colRequester {
+  flex: 1.4 1 0;
+  min-width: 0;
+}
+
+.grid .colDepartment {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.grid .colBudget {
+  flex: 1 1 0;
+}
+
+.grid .colDates {
+  flex: 1.7 1 0;
+}
+
+.grid .colPriority {
+  flex: 0.8 1 0;
+}
+
+.grid .colStatus {
+  flex: 1.1 1 0;
 }
 
 .gridHeader {
@@ -77,8 +108,10 @@
 
 .dates {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 6px 0;
 }
 
 .number {
