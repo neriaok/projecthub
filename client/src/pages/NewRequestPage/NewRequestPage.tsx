@@ -3,7 +3,6 @@ import type { FC, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
-  Card,
   Field,
   Input,
   MessageBar,
@@ -17,6 +16,8 @@ import {
   ToastTitle,
   useToastController,
 } from '@fluentui/react-components';
+import type { FluentIcon } from '@fluentui/react-icons';
+import { DataTrending20Regular, PersonAvailable20Regular, Send20Regular } from '@fluentui/react-icons';
 import PageHeader from '../../components/PageHeader';
 import { useCreateRequestMutation } from '../../features/requests/requestsApi';
 import { useAppSelector } from '../../hooks/useAppDispatch';
@@ -46,6 +47,12 @@ const INITIAL_VALUES: FormValues = {
   endDate: '',
   priority: 'medium',
 };
+
+const NEXT_STEPS: { icon: FluentIcon; title: string; text: string }[] = [
+  { icon: Send20Regular, title: 'הגשה', text: 'הבקשה נשמרת ומנותבת אוטומטית למנהל הישיר שלך.' },
+  { icon: PersonAvailable20Regular, title: 'החלטת מנהל', text: 'המנהל מקבל התראה, ומאשר או דוחה את הבקשה עם הערה.' },
+  { icon: DataTrending20Regular, title: 'מעקב PMO', text: 'בקשה מאושרת עוברת למעקב ביצוע ונכנסת לתמונת המצב הארגונית.' },
+];
 
 function validate(values: FormValues): FormErrors {
   const errors: FormErrors = {};
@@ -108,92 +115,122 @@ const NewRequestPage: FC = () => {
   return (
     <>
       <PageHeader
+        eyebrow="בקשה חדשה"
         title="בקשת פרויקט חדשה"
         subtitle={`הבקשה תישלח לאישור המנהל הישיר שלך · מחלקת ${user?.department ?? ''}`}
       />
 
-      <Card className={styles.card}>
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <Field label="שם הפרויקט" required validationMessage={errors.title}>
-            <Input
-              value={values.title}
-              maxLength={200}
-              placeholder="לדוגמה: הטמעת מערכת לניהול פניות"
-              onChange={(_, data) => updateField('title', data.value)}
-            />
-          </Field>
+      <div className={styles.layout}>
+        <section className={styles.card}>
+          <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>פרטי הפרויקט</h2>
+              <Field label="שם הפרויקט" required validationMessage={errors.title}>
+                <Input
+                  size="large"
+                  value={values.title}
+                  maxLength={200}
+                  placeholder="לדוגמה: הטמעת מערכת לניהול פניות"
+                  onChange={(_, data) => updateField('title', data.value)}
+                />
+              </Field>
 
-          <Field label="תיאור" hint="מטרות הפרויקט, היקף ותועלת צפויה">
-            <Textarea
-              value={values.description}
-              rows={4}
-              resize="vertical"
-              maxLength={4000}
-              onChange={(_, data) => updateField('description', data.value)}
-            />
-          </Field>
+              <Field label="תיאור" hint="מטרות הפרויקט, היקף ותועלת צפויה">
+                <Textarea
+                  value={values.description}
+                  rows={4}
+                  resize="vertical"
+                  maxLength={4000}
+                  onChange={(_, data) => updateField('description', data.value)}
+                />
+              </Field>
+            </div>
 
-          <div className={styles.row}>
-            <Field label="תקציב משוער" required validationMessage={errors.budget}>
-              <Input
-                type="number"
-                inputMode="numeric"
-                min={1}
-                contentBefore="₪"
-                value={values.budget}
-                onChange={(_, data) => updateField('budget', data.value)}
-              />
-            </Field>
-            <Field label="תאריך התחלה" required validationMessage={errors.startDate}>
-              <Input
-                type="date"
-                value={values.startDate}
-                onChange={(_, data) => updateField('startDate', data.value)}
-              />
-            </Field>
-            <Field label="תאריך סיום" required validationMessage={errors.endDate}>
-              <Input
-                type="date"
-                min={values.startDate || undefined}
-                value={values.endDate}
-                onChange={(_, data) => updateField('endDate', data.value)}
-              />
-            </Field>
-          </div>
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>תקציב ולוח זמנים</h2>
+              <div className={styles.row}>
+                <Field label="תקציב משוער" required validationMessage={errors.budget}>
+                  <Input
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    contentBefore="₪"
+                    value={values.budget}
+                    onChange={(_, data) => updateField('budget', data.value)}
+                  />
+                </Field>
+                <Field label="תאריך התחלה" required validationMessage={errors.startDate}>
+                  <Input
+                    type="date"
+                    value={values.startDate}
+                    onChange={(_, data) => updateField('startDate', data.value)}
+                  />
+                </Field>
+                <Field label="תאריך סיום" required validationMessage={errors.endDate}>
+                  <Input
+                    type="date"
+                    min={values.startDate || undefined}
+                    value={values.endDate}
+                    onChange={(_, data) => updateField('endDate', data.value)}
+                  />
+                </Field>
+              </div>
 
-          <Field label="עדיפות">
-            <RadioGroup
-              layout="horizontal"
-              value={values.priority}
-              onChange={(_, data) => updateField('priority', data.value as RequestPriority)}
-            >
-              {REQUEST_PRIORITIES.map((priority) => (
-                <Radio key={priority} value={priority} label={PRIORITY_LABELS[priority]} />
-              ))}
-            </RadioGroup>
-          </Field>
+              <Field label="עדיפות">
+                <RadioGroup
+                  layout="horizontal"
+                  value={values.priority}
+                  className={styles.priority}
+                  onChange={(_, data) => updateField('priority', data.value as RequestPriority)}
+                >
+                  {REQUEST_PRIORITIES.map((priority) => (
+                    <Radio key={priority} value={priority} label={PRIORITY_LABELS[priority]} />
+                  ))}
+                </RadioGroup>
+              </Field>
+            </div>
 
-          {error && (
-            <MessageBar intent="error">
-              <MessageBarBody>{getApiErrorMessage(error)}</MessageBarBody>
-            </MessageBar>
-          )}
+            {error && (
+              <MessageBar intent="error">
+                <MessageBarBody>{getApiErrorMessage(error)}</MessageBarBody>
+              </MessageBar>
+            )}
 
-          <div className={styles.actions}>
-            <Button
-              type="submit"
-              appearance="primary"
-              disabled={isLoading}
-              icon={isLoading ? <Spinner size="tiny" /> : undefined}
-            >
-              הגשת בקשה
-            </Button>
-            <Button appearance="secondary" disabled={isLoading} onClick={() => navigate('/requests')}>
-              ביטול
-            </Button>
-          </div>
-        </form>
-      </Card>
+            <div className={styles.actions}>
+              <Button
+                type="submit"
+                appearance="primary"
+                size="large"
+                className={styles.submit}
+                disabled={isLoading}
+                icon={isLoading ? <Spinner size="tiny" appearance="inverted" /> : <Send20Regular className={styles.flipIcon} />}
+              >
+                הגשת בקשה
+              </Button>
+              <Button appearance="subtle" size="large" disabled={isLoading} onClick={() => navigate('/requests')}>
+                ביטול
+              </Button>
+            </div>
+          </form>
+        </section>
+
+        <aside className={styles.aside}>
+          <h2 className={styles.asideTitle}>מה קורה אחרי ההגשה?</h2>
+          <ol className={styles.steps}>
+            {NEXT_STEPS.map(({ icon: Icon, title, text }) => (
+              <li key={title} className={styles.step}>
+                <span className={styles.stepIcon}>
+                  <Icon />
+                </span>
+                <span className={styles.stepText}>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      </div>
     </>
   );
 };
