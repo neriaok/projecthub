@@ -10,6 +10,17 @@ export interface CreateRequestBody {
   priority: RequestPriority;
 }
 
+export interface DecideRequestArgs {
+  id: string;
+  decision: 'approved' | 'rejected';
+  note: string;
+}
+
+export interface UpdateStatusArgs {
+  id: string;
+  status: Extract<RequestStatus, 'in-progress' | 'completed'>;
+}
+
 export const requestsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getRequests: builder.query<ProjectRequest[], RequestStatus | undefined>({
@@ -27,7 +38,27 @@ export const requestsApi = baseApi.injectEndpoints({
       query: (body) => ({ url: '/requests', method: 'POST', body }),
       invalidatesTags: [{ type: 'Request', id: 'LIST' }],
     }),
+    decideRequest: builder.mutation<ProjectRequest, DecideRequestArgs>({
+      query: ({ id, ...body }) => ({ url: `/requests/${id}/decision`, method: 'PATCH', body }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Request', id },
+        { type: 'Request', id: 'LIST' },
+      ],
+    }),
+    updateRequestStatus: builder.mutation<ProjectRequest, UpdateStatusArgs>({
+      query: ({ id, status }) => ({ url: `/requests/${id}/status`, method: 'PATCH', body: { status } }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Request', id },
+        { type: 'Request', id: 'LIST' },
+      ],
+    }),
   }),
 });
 
-export const { useGetRequestsQuery, useGetRequestQuery, useCreateRequestMutation } = requestsApi;
+export const {
+  useGetRequestsQuery,
+  useGetRequestQuery,
+  useCreateRequestMutation,
+  useDecideRequestMutation,
+  useUpdateRequestStatusMutation,
+} = requestsApi;
