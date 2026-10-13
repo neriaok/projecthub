@@ -11,6 +11,7 @@ import ProjectRequest, {
 } from '../models/ProjectRequest';
 import { getAuthUser } from '../middleware/requireAuth';
 import { canViewRequest, visibleRequestsFilter } from '../utils/requestAccess';
+import notifyMake from '../utils/notifyMake';
 
 const PERSON_FIELDS = 'name email department role';
 
@@ -91,6 +92,8 @@ export async function createProjectRequest(
     { path: 'approver', select: PERSON_FIELDS },
   ]);
 
+  await notifyMake('request.created', created);
+
   res.status(201).json({ success: true, data: created });
 }
 
@@ -148,6 +151,8 @@ export async function decideProjectRequest(
     { path: 'requester', select: PERSON_FIELDS },
     { path: 'approver', select: PERSON_FIELDS },
   ]);
+
+  await notifyMake('request.decided', request);
 
   res.status(200).json({ success: true, data: request });
 }

@@ -16,6 +16,8 @@ export const config = {
   jwtSecret: requireEnv('JWT_SECRET'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '8h',
   seedPassword: process.env.SEED_PASSWORD,
+  /** Optional: when set, request events are posted to this Make (Integromat) webhook. */
+  makeWebhookUrl: process.env.MAKE_WEBHOOK_URL || null,
 };
 
 export default config;
