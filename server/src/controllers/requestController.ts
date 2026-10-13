@@ -110,3 +110,81 @@ export async function getProjectRequest(
 
   res.status(200).json({ success: true, data: request });
 }
+
+const DECISIONS = ['approved', 'rejected'] as const;
+type Decision = (typeof DECISIONS)[number];
+
+interface DecideProjectRequestBody {
+  decision?: unknown;
+  note?: unknown;
+}
+
+export async function decideProjectRequest(
+  req: Request<{ id: string }, {}, DecideProjectRequestBody>,
+  res: Response<ApiResponse<IProjectRequest>>,
+) {
+  const user = getAuthUser(req);
+  const { id } = req.params;
+  const { decision, note } = req.body ?? {};
+  if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid request id');
+  if (!isOneOf(DECISIONS, decision)) throw new ApiError(400, 'decision must be approved or rejected');
+  if (note !== undefined && typeof note !== 'string') throw new ApiError(400, 'note must be a string');
+  if (typeof note === 'string' && note.trim().length > 1000) {
+    throw new ApiError(400, 'note must be at most 1000 characters');
+  }
+
+  const request = await ProjectRequest.findById(id);
+  if (!request) throw new ApiError(404, 'Project request not found');
+  if (!request.approverId?.equals(user._id)) {
+    throw new ApiError(403, 'Only the assigned approver can decide on this request');
+  }
+  if (request.status !== 'pending') throw new ApiError(409, 'This request has already been decided');
+
+  request.status = decision as Decision;
+  request.decisionNote = typeof note === 'string' ? note.trim() : '';
+  request.decidedAt = new Date();
+  await request.save();
+  await request.populate([
+    { path: 'requester', select: PERSON_FIELDS },
+    { path: 'approver', select: PERSON_FIELDS },
+  ]);
+
+  res.status(200).json({ success: true, data: request });
+}
+
+/** Execution statuses the PMO can move a request into, keyed by the status it must currently have. */
+const STATUS_TRANSITIONS: Partial<Record<RequestStatus, RequestStatus>> = {
+  approved: 'in-progress',
+  'in-progress': 'completed',
+};
+
+interface UpdateProjectRequestStatusBody {
+  status?: unknown;
+}
+
+export async function updateProjectRequestStatus(
+  req: Request<{ id: string }, {}, UpdateProjectRequestStatusBody>,
+  res: Response<ApiResponse<IProjectRequest>>,
+) {
+  const { id } = req.params;
+  const { status } = req.body ?? {};
+  if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid request id');
+  if (status !== 'in-progress' && status !== 'completed') {
+    throw new ApiError(400, 'status must be in-progress or completed');
+  }
+
+  const request = await ProjectRequest.findById(id);
+  if (!request) throw new ApiError(404, 'Project request not found');
+  if (STATUS_TRANSITIONS[request.status] !== status) {
+    throw new ApiError(409, `Cannot change status from ${request.status} to ${status}`);
+  }
+
+  request.status = status;
+  await request.save();
+  await request.populate([
+    { path: 'requester', select: PERSON_FIELDS },
+    { path: 'approver', select: PERSON_FIELDS },
+  ]);
+
+  res.status(200).json({ success: true, data: request });
+}
