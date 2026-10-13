@@ -28,7 +28,7 @@ export interface SeedRequest {
 }
 
 export const seedUsers: SeedUser[] = [
-  { key: 'michal', name: 'מיכל לוי', email: 'michal.levi@telvora.co.il', role: 'pmo', department: 'PMO', manager: null },
+  { key: 'michal', name: 'מיכל לוי', email: 'michal.levi@telvora.co.il', role: 'pmo', department: 'משרד הפרויקטים', manager: null },
   { key: 'ori', name: 'אורי כהן', email: 'ori.cohen@telvora.co.il', role: 'manager', department: 'פיתוח', manager: 'michal' },
   { key: 'ronit', name: 'רונית אברהם', email: 'ronit.avraham@telvora.co.il', role: 'manager', department: 'תפעול', manager: 'michal' },
   { key: 'daniel', name: 'דניאל מזרחי', email: 'daniel.mizrahi@telvora.co.il', role: 'employee', department: 'פיתוח', manager: 'ori' },
